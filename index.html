@@ -3,26 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minecraft Panel</title>
+    <title>Farhad MC Panel</title>
     <style>
-        body { background: #121212; color: white; font-family: sans-serif; text-align: center; padding-top: 50px; }
-        .card { background: #1e1e1e; padding: 30px; border-radius: 15px; display: inline-block; border: 1px solid #333; }
-        .btn { padding: 10px 20px; margin: 10px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
-        .start { background: #4CAF50; color: white; }
-        .stop { background: #f44336; color: white; }
-        .console { background: black; color: #0f0; padding: 15px; margin-top: 20px; text-align: left; border-radius: 5px; font-family: monospace; }
+        :root { --main-bg: #0a0a0c; --card-bg: #16161a; --accent: #00f2ff; --text: #e0e0e0; }
+        body { background: var(--main-bg); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+        .panel { background: var(--card-bg); width: 90%; max-width: 400px; padding: 30px; border-radius: 24px; border: 1px solid #333; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
+        h1 { font-size: 1.5rem; margin-bottom: 10px; color: var(--accent); letter-spacing: 2px; }
+        .status-badge { display: inline-block; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; margin-bottom: 20px; background: #222; }
+        .online { color: #00ff88; border: 1px solid #00ff88; }
+        .offline { color: #ff4d4d; border: 1px solid #ff4d4d; }
+        
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
+        .info-item { background: #1f1f25; padding: 15px; border-radius: 12px; border: 1px solid #2a2a2a; }
+        .label { font-size: 0.7rem; color: #888; display: block; margin-bottom: 5px; }
+        .value { font-weight: bold; font-family: monospace; color: white; }
+
+        .ip-section { background: linear-gradient(90deg, #1f1f25, #2a2a2a); padding: 15px; border-radius: 12px; margin-bottom: 20px; cursor: pointer; border: 1px solid var(--accent); }
+        
+        .console { background: #000; color: #00ff88; padding: 15px; border-radius: 10px; font-family: 'Courier New', monospace; font-size: 0.8rem; height: 100px; overflow-y: auto; text-align: left; border: 1px solid #222; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h1>Minecraft Control Panel</h1>
-        <p>Status: <span style="color:#4CAF50">● Online</span></p>
-        <button class="btn start">START SERVER</button>
-        <button class="btn stop">STOP SERVER</button>
-        <div class="console">
-            > System Ready...<br>
-            > Waiting for commands...
+
+<div class="panel">
+    <h1>MC CONTROL</h1>
+    <div id="status" class="status-badge offline">CHECKING...</div>
+
+    <div class="ip-section" onclick="copyIP()">
+        <span class="label">CLICK TO COPY IP</span>
+        <span class="value" id="ipText">farhad-mc.aternos.me</span>
+    </div>
+
+    <div class="info-grid">
+        <div class="info-item">
+            <span class="label">PLAYERS</span>
+            <span class="value" id="playerCount">0 / 0</span>
+        </div>
+        <div class="info-item">
+            <span class="label">VERSION</span>
+            <span class="value" id="version">---</span>
         </div>
     </div>
+
+    <div class="console" id="console">
+        > Initializing connection...<br>
+        > Searching for server...
+    </div>
+</div>
+
+<script>
+    const serverIP = "farhad-mc.aternos.me";
+
+    async function checkServer() {
+        const consoleBox = document.getElementById('console');
+        try {
+            const res = await fetch(`https://api.mcsrvstat.us/2/${serverIP}`);
+            const data = await res.json();
+            
+            const statusEl = document.getElementById('status');
+            if(data.online) {
+                statusEl.className = "status-badge online";
+                statusEl.innerText = "● ONLINE";
+                document.getElementById('playerCount').innerText = `${data.players.online} / ${data.players.max}`;
+                document.getElementById('version').innerText = data.version;
+                addLog(`Server is Online (${data.players.online} playing)`);
+            } else {
+                statusEl.className = "status-badge offline";
+                statusEl.innerText = "● OFFLINE";
+                addLog("Server is currently Offline.");
+            }
+        } catch (e) {
+            addLog("Error: API Connection Failed.");
+        }
+    }
+
+    function addLog(msg) {
+        const c = document.getElementById('console');
+        c.innerHTML += `<br>> ${msg}`;
+        c.scrollTop = c.scrollHeight;
+    }
+
+    function copyIP() {
+        const ip = document.getElementById('ipText').innerText;
+        navigator.clipboard.writeText(ip);
+        alert("IP Copied: " + ip);
+    }
+
+    // Refresh every 20 seconds
+    setInterval(checkServer, 20000);
+    checkServer();
+</script>
+
 </body>
 </html>
