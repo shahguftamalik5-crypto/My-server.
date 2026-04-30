@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Farhad MC - Survival Panel</title>
+    <title>Brothershood MC Panel</title>
     <style>
-        /* Minecraft Font jaisa look */
+        /* Minecraft Font */
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
         body { 
@@ -15,36 +15,37 @@
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            overflow: hidden;
             /* Minecraft Background Image */
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://wallpaperaccess.com/full/466314.jpg');
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://wallpaperaccess.com/full/466314.jpg');
             background-size: cover;
             background-position: center;
             font-family: 'Segoe UI', sans-serif;
+            color: white;
         }
 
         .panel { 
-            background: rgba(22, 22, 26, 0.9); 
+            background: rgba(40, 40, 40, 0.95); 
             width: 90%; 
-            max-width: 420px; 
-            padding: 30px; 
-            border-radius: 10px; 
-            border: 4px solid #3c3c3c; /* Minecraft GUI border */
-            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+            max-width: 400px; 
+            padding: 25px; 
+            border: 4px solid #1e1e1e; 
+            border-bottom: 6px solid #000;
+            border-right: 6px solid #000;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
             text-align: center;
         }
 
         h1 { 
             font-family: 'Press Start 2P', cursive; 
-            font-size: 1rem; 
-            color: #fff; 
-            text-shadow: 3px 3px #000;
-            margin-bottom: 20px;
+            font-size: 0.9rem; 
+            color: #ffaa00; 
+            text-shadow: 2px 2px #000;
+            margin-bottom: 25px;
         }
 
         .status-badge { 
             display: inline-block; 
-            padding: 8px 20px; 
+            padding: 10px 15px; 
             font-family: 'Press Start 2P', cursive;
             font-size: 0.6rem; 
             margin-bottom: 20px;
@@ -52,67 +53,69 @@
             border: 2px solid #555;
         }
 
-        .online { color: #55FF55; border-color: #55FF55; }
+        .online { color: #55FF55; border-color: #55FF55; box-shadow: 0 0 10px rgba(85, 255, 85, 0.3); }
         .offline { color: #FF5555; border-color: #FF5555; }
         
         .ip-section { 
             background: #313131; 
             padding: 15px; 
-            border: 3px solid #1e1e1e;
+            border: 2px solid #1e1e1e;
             margin-bottom: 20px; 
             cursor: pointer;
-            transition: 0.2s;
+            border-radius: 4px;
         }
-        .ip-section:hover { background: #444; }
-        .label { font-size: 0.7rem; color: #aaa; display: block; }
-        .value { font-weight: bold; color: #00f2ff; font-family: monospace; }
+        .ip-section:hover { background: #444; border-color: #00f2ff; }
+        .label { font-size: 0.65rem; color: #aaa; display: block; margin-bottom: 5px; text-transform: uppercase; }
+        .value { font-weight: bold; color: #ffffff; font-family: monospace; font-size: 1rem; }
 
         .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .info-item { background: #222; padding: 10px; border: 2px solid #444; }
+        .info-item { background: #222; padding: 12px; border: 2px solid #3c3c3c; border-radius: 4px; }
 
         .console { 
             background: #000; 
             color: #00ff88; 
-            padding: 10px; 
-            border-radius: 5px; 
-            font-family: monospace; 
-            font-size: 0.7rem; 
-            height: 80px; 
+            padding: 12px; 
+            border-radius: 4px; 
+            font-family: 'Courier New', monospace; 
+            font-size: 0.75rem; 
+            height: 90px; 
             overflow-y: auto; 
             text-align: left; 
-            border: 2px solid #333;
+            border: 1px solid #333;
         }
     </style>
 </head>
 <body>
 
 <div class="panel">
-    <h1>MC SERVER CONTROL</h1>
+    <h1>BROTHERSHOOD PANEL</h1>
     <div id="status" class="status-badge offline">LOADING...</div>
 
     <div class="ip-section" onclick="copyIP()">
-        <span class="label">SERVER ADDRESS (CLICK TO COPY)</span>
-        <span class="value" id="ipText">farhad-mc.aternos.me</span>
+        <span class="label">CLICK TO COPY IP</span>
+        <span class="value" id="ipText">Brothershood-hCFt.aternos.me</span>
     </div>
 
     <div class="info-grid">
         <div class="info-item">
             <span class="label">PLAYERS</span>
-            <span class="value" id="playerCount">0/0</span>
+            <span class="value" id="playerCount">0 / 0</span>
         </div>
         <div class="info-item">
             <span class="label">VERSION</span>
-            <span class="value" id="version">-</span>
+            <span class="value" id="version">---</span>
         </div>
     </div>
 
-    <div class="console" id="console">> Connecting to Aternos...</div>
+    <div class="console" id="console">> Connecting to server database...</div>
 </div>
 
 <script>
-    const serverIP = "farhad-mc.aternos.me";
+    // Aapki Asli IP
+    const serverIP = "Brothershood-hCFt.aternos.me";
 
     async function checkServer() {
+        const consoleBox = document.getElementById('console');
         try {
             const res = await fetch(`https://api.mcsrvstat.us/2/${serverIP}`);
             const data = await res.json();
@@ -120,30 +123,36 @@
             
             if(data.online) {
                 statusEl.className = "status-badge online";
-                statusEl.innerText = "ONLINE";
-                document.getElementById('playerCount').innerText = `${data.players.online}/${data.players.max}`;
-                document.getElementById('version').innerText = data.version;
-                addLog("Server heartbeat: OK");
+                statusEl.innerText = "● ONLINE";
+                document.getElementById('playerCount').innerText = `${data.players.online} / ${data.players.max}`;
+                document.getElementById('version').innerText = data.version || "Java/Bedrock";
+                addLog(`Success: Server is Online.`);
             } else {
                 statusEl.className = "status-badge offline";
-                statusEl.innerText = "OFFLINE";
-                addLog("Target server is sleeping...");
+                statusEl.innerText = "● OFFLINE";
+                document.getElementById('playerCount').innerText = "0 / 0";
+                document.getElementById('version').innerText = "---";
+                addLog("Status: Server is currently Offline.");
             }
-        } catch (e) { addLog("Error: Connection lost."); }
+        } catch (e) { 
+            addLog("Error: Could not reach Aternos API."); 
+        }
     }
 
     function addLog(msg) {
         const c = document.getElementById('console');
-        c.innerHTML += `<br>> ${msg}`;
+        const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        c.innerHTML += `<br>[${time}] > ${msg}`;
         c.scrollTop = c.scrollHeight;
     }
 
     function copyIP() {
         const ip = document.getElementById('ipText').innerText;
         navigator.clipboard.writeText(ip);
-        alert("IP Copied to Minecraft Clipboard!");
+        alert("IP Copied: " + ip + "\nNow paste it in Minecraft!");
     }
 
+    // Refresh every 20 seconds
     setInterval(checkServer, 20000);
     checkServer();
 </script>
