@@ -1,9 +1,10 @@
 const express = require('express');
+const path = require('path');
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
-  res.send('<h1>Minecraft Panel is Online!</h1><p>Server is running perfectly.</p>');
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.listen(port, () => {
