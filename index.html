@@ -3,81 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brothershood Pro Panel</title>
+    <title>Bhaichara On Top | Server Control</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-        body { 
-            margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; 
-            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://wallpaperaccess.com/full/466314.jpg');
-            background-size: cover; font-family: sans-serif; color: white; overflow: hidden;
-        }
-        .panel { 
-            background: #1a1a1a; width: 85%; max-width: 380px; padding: 20px; 
-            border: 3px solid #333; border-radius: 10px; text-align: center;
-        }
-        h1 { font-family: 'Press Start 2P', cursive; font-size: 0.8rem; color: #ffaa00; margin-bottom: 20px; }
-        
-        .status-box {
-            padding: 15px; margin-bottom: 20px; border-radius: 5px; font-weight: bold;
-            font-family: 'Press Start 2P', cursive; font-size: 0.6rem;
-        }
-        .off { background: #441111; color: #ff5555; border: 1px solid #ff5555; }
-        .on { background: #114411; color: #55ff55; border: 1px solid #55ff55; }
-
-        .btn {
-            background: #388e3c; color: white; border: none; padding: 15px; width: 100%;
-            font-family: 'Press Start 2P', cursive; font-size: 0.7rem; cursor: pointer;
-            margin-bottom: 15px; border-radius: 5px; box-shadow: 0 4px #1b5e20;
-        }
-        .btn:active { box-shadow: none; transform: translateY(4px); }
-
-        .ip-card { background: #222; padding: 12px; border: 1px dashed #555; cursor: pointer; }
-        .console { 
-            background: #000; color: #0f0; padding: 8px; margin-top: 15px;
-            font-family: monospace; font-size: 0.7rem; height: 50px; text-align: left;
-        }
+        body { background-color: #0f0f0f; color: #e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; margin: 0; padding: 20px; }
+        .card { background: linear-gradient(145deg, #1a1a1a, #121212); border: 1px solid #333; border-radius: 20px; padding: 30px; max-width: 400px; margin: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h1 { color: #ff3e3e; text-transform: uppercase; letter-spacing: 2px; }
+        .ip-box { background: #222; padding: 10px; border-radius: 10px; border: 1px dashed #555; margin: 20px 0; font-family: monospace; font-size: 1.1em; color: #00ffcc; }
+        .btn-start { background: #ff3e3e; color: white; border: none; padding: 15px 40px; border-radius: 50px; font-size: 1.2em; font-weight: bold; cursor: pointer; transition: 0.3s; width: 100%; text-decoration: none; display: inline-block; }
+        .btn-start:hover { background: #ff0000; box-shadow: 0 0 20px rgba(255, 62, 62, 0.4); transform: scale(1.02); }
+        .footer { margin-top: 30px; font-size: 0.8em; color: #666; }
     </style>
 </head>
 <body>
 
-<div class="panel">
-    <h1>BROTHERSHOOD PANEL</h1>
-    
-    <div id="statBox" class="status-box off">● SYSTEM OFFLINE</div>
+    <div class="card">
+        <h1>Bhaichara Panel</h1>
+        <p>Status: <span style="color: #00ff00;">● Online Ready</span></p>
+        
+        <div class="ip-box">
+            Brothershood-hCFt.aternos.me
+        </div>
 
-    <button class="btn" onclick="startServer()">START SERVER</button>
+        <p>Queue bypass karne ke liye niche click karein:</p>
+        
+        <a href="https://aternos.org/server/" target="_blank" class="btn-start">START SERVER</a>
 
-    <div class="ip-card" onclick="copyIP()">
-        <small style="color:#888">CLICK TO COPY IP</small><br>
-        <span id="ip">Brothershood-hCFt.aternos.me</span>
+        <div class="footer">
+            Developed by Farhad | Powered by Bhaichara
+        </div>
     </div>
-
-    <div class="console" id="log">> Ready for mobile gaming...</div>
-</div>
-
-<script>
-    function startServer() {
-        const sb = document.getElementById('statBox');
-        const l = document.getElementById('log');
-        
-        l.innerHTML = "> Sending start signal...";
-        
-        // Mobile par 5 second baad status change hoga
-        setTimeout(() => {
-            sb.className = "status-box on";
-            sb.innerHTML = "● SERVER ONLINE";
-            l.innerHTML = "> Server is running! Join now.";
-            // Seedha Aternos khol dega taaki aap 'Start' daba sako
-            window.open('https://aternos.org/server/', '_blank');
-        }, 2000);
-    }
-
-    function copyIP() {
-        const text = document.getElementById('ip').innerText;
-        navigator.clipboard.writeText(text);
-        document.getElementById('log').innerHTML = "> IP Copied to clipboard!";
-    }
-</script>
 
 </body>
 </html>
