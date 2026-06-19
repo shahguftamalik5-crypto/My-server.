@@ -30,8 +30,8 @@ app.get('/api/status', async (req, res) => {
     }
 });
 
-// Render ko 24/7 "Wake Up" rakhne ke liye self-ping script
-const RENDER_EXTERNAL_URL = 'https://bhaichara-panel.onrender.com'; // <-- Deploy karne ke baad agar URL alag ho toh badal lena
+// Render ko 24/7 "Wake Up" rakhne ke liye aapka actual live URL
+const RENDER_EXTERNAL_URL = 'https://minecraft-panel-8dw2.onrender.com'; 
 
 setInterval(async () => {
     try {
