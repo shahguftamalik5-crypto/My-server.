@@ -5,15 +5,28 @@ const axios = require('axios');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Body parser taaki login data read ho sake
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 // Static files (HTML, CSS, JS) serve karne ke liye
 app.use(express.static(path.join(__dirname, '/')));
 
 // Aapke Minecraft server ki IP
 const SERVER_IP = 'Brothershood-hCFt.aternos.me';
 
-// Route: Index page dikhane ke liye
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+// Login Credentials
+const ADMIN_USER = 'Admin123123';
+const ADMIN_PASS = 'Admin_boss';
+
+// Route: Login check karne ke liye API
+app.post('/api/login', (req, res) => {
+    const { username, password } = req.body;
+    if (username === ADMIN_USER && password === ADMIN_PASS) {
+        res.json({ success: true });
+    } else {
+        res.json({ success: false, message: "Galat Username ya Password hai bhai!" });
+    }
 });
 
 // Route: Server ka real-time status check karne ke liye
